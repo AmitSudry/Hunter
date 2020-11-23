@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float upForce = 2000.0f;
     public bool isOnGround = false;
 
+    Vector3 velocity;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,14 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey("w"))
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+        float y = Input.GetAxis("Jump");
+        
+        Vector3 move = transform.right * x * sideForce + transform.forward * z * forwardForce;
+        Vector3 jump = transform.up * y * upForce;
+        /*
+        if (Input.GetKey("w"))
         {
             rb.AddForce(-forwardForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
         }
@@ -35,18 +43,18 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(0, 0, -sideForce * Time.deltaTime, ForceMode.VelocityChange);
         }
+       
+        */
         if (Input.GetKey(KeyCode.Space) && isOnGround)
         {
-            rb.AddForce(0, upForce * Time.deltaTime, 0);
+            rb.AddForce(jump);
         }
-
-        
-
+        rb.AddForce(move);
     }
 
     void OnCollisionEnter(Collision coll)
     {
-        if (coll.gameObject.name == "Ground")
+        if (coll.gameObject.tag == "Ground" || coll.gameObject.tag == "Cubes")
         {
             isOnGround = true;
         }
@@ -55,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     //consider when character is jumping .. it will exit collision.
     void OnCollisionExit(Collision coll)
     {
-        if (coll.gameObject.name == "Ground")
+        if (coll.gameObject.tag == "Ground" || coll.gameObject.tag == "Cubes")
         {
             isOnGround = false;
         }
