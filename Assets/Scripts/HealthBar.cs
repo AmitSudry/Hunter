@@ -9,6 +9,7 @@ public class HealthBar : MonoBehaviour
     public Image foreground;
 
     public float updateSpeedSeconds = 0.5f;
+    public Camera cam;
 
     private void Awake()
     {
@@ -34,12 +35,11 @@ public class HealthBar : MonoBehaviour
 
         foreground.fillAmount = pct;
     }
-    /*
+    
     // Update is called once per frame
     private void LateUpdate()
     {
-        transform.LookAt(Camera.main.transform);
+        transform.LookAt(cam.transform);
         transform.Rotate(0, 180, 0);
     }
-    */
 }
