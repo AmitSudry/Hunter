@@ -43,9 +43,10 @@ public class GunShoot : MonoBehaviour
 
     void OnEnable()
     {
-        //isReloading = false;
+        isReloading = false;
         //animator.SetBool("Reloading", false);
     }
+
     IEnumerator Reload()
     {
         isReloading = true;
