@@ -36,9 +36,8 @@ public class FpsPlayerMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision coll)
     {
-        if (coll.gameObject.name == "Ground")
+        if (coll.gameObject.tag == "Ground")
         {
-            Debug.Log("Text: here");
             isOnGround = true;
         }
     }
@@ -46,7 +45,7 @@ public class FpsPlayerMovement : MonoBehaviour
     //consider when character is jumping .. it will exit collision.
     void OnCollisionExit(Collision coll)
     {
-        if (coll.gameObject.name == "Ground")
+        if (coll.gameObject.tag == "Ground")
         {
             isOnGround = false;
         }

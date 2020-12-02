@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GunShoot : MonoBehaviour
 {
     public TextMeshProUGUI ammoText;
+    public TextMeshProUGUI reloadText;
+    public Image crosshair;
 
     public float damage = 1.0f;
     public float range = 10f;
@@ -20,10 +23,12 @@ public class GunShoot : MonoBehaviour
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
 
+    
     void Start()
     {
         currAmmo = maxAmmo;
         ammoText.SetText(currAmmo.ToString());
+        reloadText.enabled = false;
     }
 
     // Update is called once per frame
@@ -33,7 +38,16 @@ public class GunShoot : MonoBehaviour
         if (isReloading)
             return;
 
+        crosshair.enabled = true;
+        reloadText.enabled = false;
+
         if (currAmmo<=0)
+        {
+            StartCoroutine(Reload());
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && currAmmo!=maxAmmo)
         {
             StartCoroutine(Reload());
             return;
@@ -55,10 +69,16 @@ public class GunShoot : MonoBehaviour
     {
         isReloading = true;
 
+        crosshair.enabled = false;
+        reloadText.enabled = true;
+
         yield return new WaitForSeconds(reloadTime);
 
         currAmmo = maxAmmo;
 
+        reloadText.enabled = false;
+        crosshair.enabled = true;
+        
         isReloading = false;
 
         ammoText.SetText(currAmmo.ToString());
