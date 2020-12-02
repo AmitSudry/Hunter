@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GunShoot : MonoBehaviour
 {
+    public TextMeshProUGUI ammoText;
 
     public float damage = 1.0f;
     public float range = 10f;
@@ -21,11 +23,13 @@ public class GunShoot : MonoBehaviour
     void Start()
     {
         currAmmo = maxAmmo;
+        ammoText.SetText(currAmmo.ToString());
     }
 
     // Update is called once per frame
     void Update()
     {
+        ammoText.SetText(currAmmo.ToString());
         if (isReloading)
             return;
 
@@ -56,6 +60,8 @@ public class GunShoot : MonoBehaviour
         currAmmo = maxAmmo;
 
         isReloading = false;
+
+        ammoText.SetText(currAmmo.ToString());
     }
 
     void Shoot()
@@ -63,6 +69,7 @@ public class GunShoot : MonoBehaviour
         muzzleFlash.Play();
 
         currAmmo--;
+        ammoText.SetText(currAmmo.ToString());
 
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
