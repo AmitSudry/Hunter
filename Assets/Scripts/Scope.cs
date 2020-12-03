@@ -33,6 +33,8 @@ public class Scope : MonoBehaviour
             }
             else
             {
+                //The crosshair bug could be fixed if I add a check for
+                //weapon reload state
                 crosshair.enabled = true;
                 OnUnScoped();
             }

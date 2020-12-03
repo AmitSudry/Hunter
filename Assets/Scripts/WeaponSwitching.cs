@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponSwitching : MonoBehaviour
 {
     public int currWeapon = 0;
+    public Animator weapAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,14 @@ public class WeaponSwitching : MonoBehaviour
 
     void SelectWeapon()
     {
+        Scope s = gameObject.GetComponent<Scope>();
+        if (s.isScoped)
+        {
+            s.isScoped = false;
+            weapAnimator.SetBool("Scoped", false);
+            s.OnUnScoped();
+        }
+
         int i = 0;
         foreach (Transform weap in transform)
         {
