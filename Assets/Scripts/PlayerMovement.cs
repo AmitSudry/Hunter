@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision coll)
     {
-        if (coll.gameObject.tag == "Ground" || coll.gameObject.tag == "Cubes")
+        if (coll.gameObject.name == "Ground" || coll.gameObject.tag == "Cubes" || coll.gameObject.name == "Terrain")
         {
             isOnGround = true;
         }
@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     //consider when character is jumping .. it will exit collision.
     void OnCollisionExit(Collision coll)
     {
-        if (coll.gameObject.tag == "Ground" || coll.gameObject.tag == "Cubes")
+        if (coll.gameObject.name == "Ground" || coll.gameObject.tag == "Cubes" || coll.gameObject.name == "Terrain")
         {
             isOnGround = false;
         }

@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Scope : MonoBehaviour
 {
     public Animator animator;
     public GameObject scopeOverlay;
     public GameObject weaponCam;
+    public Image crosshair;
 
     public GameObject mainCamera;
 
@@ -25,15 +27,23 @@ public class Scope : MonoBehaviour
             animator.SetBool("Scoped", isScoped);
 
             if (isScoped)
-                StartCoroutine(OnScoped());
+            {
+                crosshair.enabled = false;
+                StartCoroutine(OnScoped());        
+            }
             else
-                OnUnScoped();    
+            {
+                crosshair.enabled = true;
+                OnUnScoped();
+            }
+                  
         }
     }
 
     IEnumerator OnScoped()
     {
         yield return new WaitForSeconds(0.15f);
+
 
         scopeOverlay.SetActive(true);
         weaponCam.SetActive(false);

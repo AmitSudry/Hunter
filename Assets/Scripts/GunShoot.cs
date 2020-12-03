@@ -41,7 +41,9 @@ public class GunShoot : MonoBehaviour
         if (isReloading)
             return;
 
-        crosshair.enabled = true;
+        if(!weapAnimator.GetBool("Scoped"))
+            crosshair.enabled = true;
+
         reloadText.enabled = false;
 
         if (currAmmo<=0)
@@ -73,20 +75,22 @@ public class GunShoot : MonoBehaviour
         isReloading = true;
 
         Scope s = weaponHolder.GetComponent<Scope>();
-        s.OnUnScoped();
-        s.isScoped = false;
-        weapAnimator.SetBool("Scoped", false);
-
+        if (s.isScoped)
+        {
+            s.isScoped = false;
+            weapAnimator.SetBool("Scoped", false);
+            s.OnUnScoped();
+        }
+        
         crosshair.enabled = false;
         reloadText.enabled = true;
 
         yield return new WaitForSeconds(reloadTime);
-
+      
         currAmmo = maxAmmo;
 
         reloadText.enabled = false;
         crosshair.enabled = true;
-
 
         isReloading = false;
 
