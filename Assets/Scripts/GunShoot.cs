@@ -10,6 +10,9 @@ public class GunShoot : MonoBehaviour
     public TextMeshProUGUI reloadText;
     public Image crosshair;
 
+    public GameObject weaponHolder;
+    public Animator weapAnimator;
+
     public float damage = 1.0f;
     public float range = 10f;
 
@@ -69,6 +72,11 @@ public class GunShoot : MonoBehaviour
     {
         isReloading = true;
 
+        Scope s = weaponHolder.GetComponent<Scope>();
+        s.OnUnScoped();
+        s.isScoped = false;
+        weapAnimator.SetBool("Scoped", false);
+
         crosshair.enabled = false;
         reloadText.enabled = true;
 
@@ -78,7 +86,8 @@ public class GunShoot : MonoBehaviour
 
         reloadText.enabled = false;
         crosshair.enabled = true;
-        
+
+
         isReloading = false;
 
         ammoText.SetText(currAmmo.ToString());
