@@ -60,6 +60,13 @@ public class GunShoot : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            Scope s = weaponHolder.GetComponent<Scope>();
+            if (s.isScoped)
+            {
+                s.isScoped = false;
+                weapAnimator.SetBool("Scoped", false);
+                s.OnUnScoped();
+            }
             Shoot();
         }
     }
