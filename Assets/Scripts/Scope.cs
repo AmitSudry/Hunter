@@ -13,10 +13,10 @@ public class Scope : MonoBehaviour
     public GameObject mainCamera;
 
     public Camera mainCam;
-    public float scopedFOV = 55.0f;
+    public float scopedFOV = 15.0f;
 
     public bool isScoped = false;
-    private float prevFOV; 
+    private float normalFOV = 60.0f; 
 
     // Update is called once per frame
     void Update()
@@ -46,11 +46,9 @@ public class Scope : MonoBehaviour
     {
         yield return new WaitForSeconds(0.15f);
 
-
         scopeOverlay.SetActive(true);
         weaponCam.SetActive(false);
 
-        prevFOV = mainCam.fieldOfView;
         mainCam.fieldOfView = scopedFOV;
 
         MouseLook ml = mainCamera.GetComponent<MouseLook>();
@@ -62,7 +60,7 @@ public class Scope : MonoBehaviour
         scopeOverlay.SetActive(false);
         weaponCam.SetActive(true);
 
-        mainCam.fieldOfView = prevFOV;
+        mainCam.fieldOfView = normalFOV;
 
         MouseLook ml = mainCamera.GetComponent<MouseLook>();
         ml.mouseSensitivity = 200.0f;
