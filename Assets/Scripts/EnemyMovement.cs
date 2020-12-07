@@ -6,11 +6,16 @@ using UnityEngine.AI;
 public class EnemyMovement : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public Transform player;
+    private GameObject player;
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectsWithTag("Player")[0];
+    }
 
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(player.position);
+        agent.SetDestination(player.transform.position);
     }
 }

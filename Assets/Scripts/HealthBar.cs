@@ -9,11 +9,12 @@ public class HealthBar : MonoBehaviour
     public Image foreground;
 
     public float updateSpeedSeconds = 0.5f;
-    public Camera cam;
+    private GameObject cam;
 
     private void Awake()
     {
         GetComponentInParent<Target>().OnHealthPctChanged += HandleHealthChanged;
+        cam = GameObject.FindGameObjectsWithTag("MainCamera")[0];
     }
 
     private void HandleHealthChanged(float pct)
