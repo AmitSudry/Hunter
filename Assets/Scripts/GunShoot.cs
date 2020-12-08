@@ -68,6 +68,7 @@ public class GunShoot : MonoBehaviour
                 s.OnUnScoped();
             }
             Shoot();
+
         }
     }
 
@@ -113,6 +114,16 @@ public class GunShoot : MonoBehaviour
 
     void Shoot()
     {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (enemies != null)
+        {
+            for(int i=0; i<enemies.Length; i++)
+            {
+                EnemyMovement em = enemies[i].GetComponent<EnemyMovement>();
+                em.followPlayer = true;
+            }
+        }
+
         muzzleFlash.Play();
 
         currAmmo--;
