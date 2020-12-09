@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -30,6 +31,11 @@ public class EnemyMovement : MonoBehaviour
         if(followPlayer)
         {
             agent.SetDestination(player.transform.position);
+            if (ReachedDestination())
+            {
+                Cursor.lockState = CursorLockMode.None;
+                SceneManager.LoadScene("Lose");
+            }
         }
         else
         {

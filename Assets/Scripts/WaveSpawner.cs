@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -76,7 +77,8 @@ public class WaveSpawner : MonoBehaviour
         if(++nextWave == waves.Length)
         {
             nextWave = 0;
-            //Create finished level ui
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("Win");
         }
         
     }
