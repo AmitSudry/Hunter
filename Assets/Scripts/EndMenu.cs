@@ -8,8 +8,10 @@ public class EndMenu : MonoBehaviour
 {
     public void PlayGame()
     {
+        //Resart level method
         //get the prefernce indicating the previous scene loaded name
-        SceneManager.LoadScene("Game");
+        string nameOfCurrScene = PlayerPrefs.GetString("CurrentScene");
+        SceneManager.LoadScene(nameOfCurrScene);
     }
 
     public void GoToMainMenu()

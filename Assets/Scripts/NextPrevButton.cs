@@ -42,11 +42,13 @@ public class NextPrevButton : MonoBehaviour
     {
 		if (currEnv == 0)
 		{
+			PlayerPrefs.SetString("CurrentScene", "Game");
 			jungle.enabled = true;
 			desert.enabled = false;
 		}
 		else if (currEnv == 1)
 		{
+			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING");
 			jungle.enabled = false;
 			desert.enabled = true;
 		}

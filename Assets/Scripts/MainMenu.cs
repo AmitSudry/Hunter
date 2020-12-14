@@ -9,12 +9,17 @@ public class MainMenu : MonoBehaviour
     public Image jungle;
     public Image desert;
 
+    void Start()
+    {
+        PlayerPrefs.SetString("CurrentScene", "Game"); //Load the jungle as a default 
+        jungle.enabled = true;
+        desert.enabled = false;
+    }
+
     public void PlayGame()
     {
-        if (jungle.enabled)
-            SceneManager.LoadScene("Game");
-        else if (desert.enabled)
-            SceneManager.LoadScene("GAME_TESTING");
+        string nameOfCurrScene = PlayerPrefs.GetString("CurrentScene");
+        SceneManager.LoadScene(nameOfCurrScene);     
     }
 
     public void QuitGame()
