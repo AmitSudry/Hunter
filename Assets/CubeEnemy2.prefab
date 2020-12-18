@@ -167,6 +167,12 @@ MonoBehaviour:
   - {fileID: 343531608211684513, guid: b70021c32db7fb54e9eea20b98304d0d, type: 3}
   - {fileID: 8460988942568363230, guid: b59a985dacdbaca4ab755aba44b40bc6, type: 3}
   - {fileID: 8386837013132694883, guid: 0285e18bfde1a0045a2ddd43664b40f3, type: 3}
+  exitPoints:
+  - {fileID: 3781391628398275915, guid: 5be4a055d7d6b5049a3ec14be6a1bfba, type: 3}
+  - {fileID: 5201434540782588489, guid: 51b58128ad8f59245ae1488eb4743cb3, type: 3}
+  - {fileID: 3582480617378749427, guid: 8993c802466cec04580859ef49591fdc, type: 3}
+  - {fileID: 4247189951847851410, guid: 9b7f4b8de37c9cf4398aaa92a5523e02, type: 3}
+  isActiveCreature: 0
 --- !u!1 &2521768903928931185
 GameObject:
   m_ObjectHideFlags: 0

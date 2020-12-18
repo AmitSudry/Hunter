@@ -13,7 +13,11 @@ public class EnemyMovement : MonoBehaviour
     public Transform[] patrolPoints;
     private int pointIndex = 0;
 
-    private bool reachedDest = true;
+    public Transform[] exitPoints;
+
+    private bool reachedDest = false;
+    public bool isActiveCreature = false;
+    private int currExitPoint = -1;
 
     void Start()
     {
@@ -23,14 +27,30 @@ public class EnemyMovement : MonoBehaviour
             Debug.Log("No referenced patrol points");
             return;
         }
+        if (exitPoints == null)
+        {
+            Debug.Log("No referenced exit points");
+            return;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         if(followPlayer)
-        {
-            agent.SetDestination(player.transform.position);
+        {   
+            if(isActiveCreature)
+            {
+                agent.SetDestination(player.transform.position);
+            }
+            else
+            {
+                if (currExitPoint == -1)
+                    currExitPoint = Random.Range(0, exitPoints.Length - 1);
+                agent.SetDestination(exitPoints[currExitPoint].position);
+                agent.speed *= 2;
+            }
+
             if (ReachedDestination())
             {
                 Cursor.lockState = CursorLockMode.None;

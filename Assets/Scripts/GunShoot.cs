@@ -16,7 +16,8 @@ public class GunShoot : MonoBehaviour
     public float damage = 1.0f;
     public float range = 10f;
 
-    // public float fireDelta = 0.5F;
+    public float fireDelta = 0.5f;
+
     public int maxAmmo = 6;
     private int currAmmo;
     public float reloadTime = 2.0f;
@@ -26,7 +27,8 @@ public class GunShoot : MonoBehaviour
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
 
-    
+    private bool canShoot = true;
+
     void Start()
     {
         currAmmo = maxAmmo;
@@ -58,7 +60,7 @@ public class GunShoot : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canShoot)
         {
             Scope s = weaponHolder.GetComponent<Scope>();
             if (s.isScoped)
@@ -68,6 +70,8 @@ public class GunShoot : MonoBehaviour
                 s.OnUnScoped();
             }
             Shoot();
+            canShoot = false;
+            StartCoroutine(ShootDelay());
 
         }
     }
@@ -141,5 +145,11 @@ public class GunShoot : MonoBehaviour
             GameObject g =  Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
             UnityEngine.Object.Destroy(g, 1f);
         }     
-    } 
+    }
+
+    IEnumerator ShootDelay()
+    {
+        yield return new WaitForSeconds(fireDelta);
+        canShoot = true;
+    }
 }
