@@ -48,7 +48,7 @@ public class EnemyMovement : MonoBehaviour
                 if (currExitPoint == -1)
                     currExitPoint = Random.Range(0, exitPoints.Length - 1);
                 agent.SetDestination(exitPoints[currExitPoint].position);
-                agent.speed *= 2;
+                agent.speed *= (float)1.25;
             }
 
             if (ReachedDestination())

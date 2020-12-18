@@ -72,7 +72,6 @@ public class GunShoot : MonoBehaviour
             Shoot();
             canShoot = false;
             StartCoroutine(ShootDelay());
-
         }
     }
 
@@ -83,6 +82,7 @@ public class GunShoot : MonoBehaviour
         weapAnimator.SetBool("Scoped", false);
         Scope s = transform.parent.gameObject.GetComponent<Scope>(); //Weapon holder Scope script
         s.isScoped = false;
+        canShoot = true;
     }
 
     IEnumerator Reload()

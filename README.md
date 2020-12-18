@@ -70,4 +70,7 @@ Added more UI for weapon shooting such as crosshair and magnifying scope.
 Imported 2 environments for the unity assets store and started to test and integrate them with the game.
 
 week 6:
-Added more menus such as pause menu... to be continued.
+Added more menus such as a pause menu. Added lose/win UI with a following menu to enable restarting a level or going back to main menu. 
+Added 2 different creatures behaviours(active/passive).
+
+week 7: 
