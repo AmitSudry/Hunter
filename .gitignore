@@ -58,10 +58,16 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+Assets/_TerrainAutoUpgrade
+Assets/Animations
 Assets/ImportedAssets
 Assets/Materials
+Assets/Prefabs
 Assets/Presets
 Assets/Scenes
 Assets/Settings
 Assets/Shared
-Assets/Animations
+Assets/Sprites&UI
+Assets/TextMeshPro
+
+*.meta
