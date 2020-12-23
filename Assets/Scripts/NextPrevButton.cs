@@ -11,10 +11,12 @@ public class NextPrevButton : MonoBehaviour
 
 	public Image jungle;
 	public Image desert;
+	public Image winter;
+	public Image arena;
 
 	public TextMeshProUGUI difficultyText;
 
-	private int numOfEnv = 2;
+	private int numOfEnv = 4;
 	private int currEnv = 0;
 
 	private int numOfDifficulties = 3;
@@ -46,17 +48,37 @@ public class NextPrevButton : MonoBehaviour
 
 	void HandleChange()
 	{
-		if (currEnv == 0)
+		if (currEnv == 0) //jungle
 		{
-			PlayerPrefs.SetString("CurrentScene", "Game");
+			PlayerPrefs.SetString("CurrentScene", "Game1");
 			jungle.enabled = true;
 			desert.enabled = false;
+			winter.enabled = false;
+			arena.enabled = false;
 		}
-		else if (currEnv == 1)
+		else if (currEnv == 1) //desert
 		{
-			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING");
+			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING"); //should be "Game2"
 			jungle.enabled = false;
 			desert.enabled = true;
+			winter.enabled = false;
+			arena.enabled = false;
+		}
+		else if (currEnv == 2) //winter
+		{
+			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING"); //should be "Game3"
+			jungle.enabled = false;
+			desert.enabled = false;
+			winter.enabled = true;
+			arena.enabled = false;
+		}
+		else if (currEnv == 3) //arena
+		{
+			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING"); //should be "Game4"
+			jungle.enabled = false;
+			desert.enabled = false;
+			winter.enabled = false;
+			arena.enabled = true;
 		}
 	}
 

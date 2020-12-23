@@ -8,12 +8,16 @@ public class MainMenu : MonoBehaviour
 {
     public Image jungle;
     public Image desert;
+    public Image winter;
+    public Image arena;
 
     void Start()
     {
-        PlayerPrefs.SetString("CurrentScene", "Game"); //Load the jungle as a default 
+        PlayerPrefs.SetString("CurrentScene", "Game1"); //Load the jungle as a default 
         jungle.enabled = true;
         desert.enabled = false;
+        winter.enabled = false;
+        arena.enabled = false;
         PlayerPrefs.SetInt("CurrentDifficulty", 0); //Default is easy
     }
 
