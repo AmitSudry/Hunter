@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
+using TMPro;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -17,13 +18,11 @@ public class WaveSpawner : MonoBehaviour
         public float delay;
     }
 
+    public TextMeshProUGUI WaveCompletedText;
+
     private Wave[] waves;
     private int nextWave = 0;
-    public int maxWaves;
-    public int minWaves;
-
-    public int minCount;
-    public int maxCount;
+    private int numOfWaves;
 
     public Transform[] optionalEnemies;
     
@@ -36,7 +35,6 @@ public class WaveSpawner : MonoBehaviour
 
     private SpawnState state = SpawnState.COUNTING;
 
-
     void OnEnable()
     {
         waveCountdown = timeBetweenWaves;
@@ -46,8 +44,32 @@ public class WaveSpawner : MonoBehaviour
             return;
         }
 
-        int numOfWaves = Random.Range(minWaves, maxWaves + 1); //pick number of waves
-        Debug.Log("Number of waves: " + numOfWaves);
+        //Debug.Log("Difficulty: " + PlayerPrefs.GetInt("CurrentDifficulty"));
+        int minWaves = 1, maxWaves = 1, minCount = 1, maxCount = 1;
+        if(PlayerPrefs.GetInt("CurrentDifficulty") == 0) //easy
+        {
+            minWaves = 2;
+            maxWaves = 3;
+            minCount = 1;
+            maxCount = 3;
+        }
+        else if (PlayerPrefs.GetInt("CurrentDifficulty") == 1) //medium
+        {
+            minWaves = 2;
+            maxWaves = 4;
+            minCount = 2;
+            maxCount = 4;
+        }
+        else if (PlayerPrefs.GetInt("CurrentDifficulty") == 2) //hard
+        {
+            minWaves = 3;
+            maxWaves = 6;
+            minCount = 2;
+            maxCount = 5;
+        }
+
+        numOfWaves = Random.Range(minWaves, maxWaves + 1); //pick number of waves
+        //Debug.Log("Number of waves: " + numOfWaves);
 
         //Generate Random level
         waves = new Wave[numOfWaves];
@@ -61,7 +83,7 @@ public class WaveSpawner : MonoBehaviour
             w.delay = 0.5f;
             w.name = "Wave #" + i.ToString();
             waves[i] = w;
-            Debug.Log("Enemy index: " + indexOfEnemy + ", Count: " + w.count);
+            //Debug.Log("Enemy index: " + indexOfEnemy + ", Count: " + w.count);
         }
     }
 
@@ -72,8 +94,9 @@ public class WaveSpawner : MonoBehaviour
         {
             if(!EnemyLeft()) //Wave completed
             {
-                Debug.Log("Wave Completed");
+                //Debug.Log("Wave Completed");
                 WaveCompleted();
+                
             }
             else
             {
@@ -104,7 +127,14 @@ public class WaveSpawner : MonoBehaviour
             nextWave = 0;
             Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene("Win");
-        } 
+        }
+        else
+        {
+            WaveCompletedText.gameObject.SetActive(true);
+            WaveCompletedText.SetText("Completed wave " + nextWave + " / " + numOfWaves);
+            //Debug.Log("Completed wave " + nextWave + "/" + numOfWaves);
+        }
+        
     }
 
     bool EnemyLeft()
@@ -124,6 +154,8 @@ public class WaveSpawner : MonoBehaviour
     IEnumerator SpawnWave(Wave wave)
     {
         state = SpawnState.SPWANING;
+
+        WaveCompletedText.gameObject.SetActive(false);
 
         for (int i = 0; i < wave.count; i++)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class NextPrevButton : MonoBehaviour
 {
@@ -10,9 +11,14 @@ public class NextPrevButton : MonoBehaviour
 
 	public Image jungle;
 	public Image desert;
-	
+
+	public TextMeshProUGUI difficultyText;
+
 	private int numOfEnv = 2;
 	private int currEnv = 0;
+
+	private int numOfDifficulties = 3;
+	private int currDifficulty = 0;
 
 	void Start()
 	{
@@ -39,7 +45,7 @@ public class NextPrevButton : MonoBehaviour
 	}
 
 	void HandleChange()
-    {
+	{
 		if (currEnv == 0)
 		{
 			PlayerPrefs.SetString("CurrentScene", "Game");
@@ -52,5 +58,32 @@ public class NextPrevButton : MonoBehaviour
 			jungle.enabled = false;
 			desert.enabled = true;
 		}
+	}
+
+	public void HigherDifficulty()
+	{
+		currDifficulty = (currDifficulty + 1) % numOfDifficulties;
+		HandleDifficulty();
+	}
+
+	public void LowerDifficulty()
+	{
+		if (currDifficulty == 0)
+			currDifficulty = numOfDifficulties - 1;
+		else
+			currDifficulty--;
+		HandleDifficulty();
+	}
+
+	void HandleDifficulty()
+	{
+		if (currDifficulty == 0)
+			difficultyText.SetText("EASY");
+		else if (currDifficulty == 1)
+			difficultyText.SetText("MEDIUM");
+		else if (currDifficulty == 2)
+			difficultyText.SetText("HARD");
+
+		PlayerPrefs.SetInt("CurrentDifficulty", currDifficulty);
 	}
 }

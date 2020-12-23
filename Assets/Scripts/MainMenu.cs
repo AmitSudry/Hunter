@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetString("CurrentScene", "Game"); //Load the jungle as a default 
         jungle.enabled = true;
         desert.enabled = false;
+        PlayerPrefs.SetInt("CurrentDifficulty", 0); //Default is easy
     }
 
     public void PlayGame()
