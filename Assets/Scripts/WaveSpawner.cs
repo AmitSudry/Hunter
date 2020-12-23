@@ -19,11 +19,11 @@ public class WaveSpawner : MonoBehaviour
 
     private Wave[] waves;
     private int nextWave = 0;
-    public int maxWaves = 8;
-    public int minWaves = 3;
+    public int maxWaves;
+    public int minWaves;
 
-    public int minCount = 1;
-    public int maxCount = 5;
+    public int minCount;
+    public int maxCount;
 
     public Transform[] optionalEnemies;
     
@@ -36,8 +36,8 @@ public class WaveSpawner : MonoBehaviour
 
     private SpawnState state = SpawnState.COUNTING;
 
-    // Start is called before the first frame update
-    void Start()
+
+    void OnEnable()
     {
         waveCountdown = timeBetweenWaves;
         if (spawnPoints.Length == 0 || optionalEnemies.Length == 0)
@@ -45,17 +45,23 @@ public class WaveSpawner : MonoBehaviour
             Debug.Log("No referenced locations or optional enemies");
             return;
         }
-        int numOfWaves = Random.Range(minWaves, maxWaves+1); //pick number of waves
+
+        int numOfWaves = Random.Range(minWaves, maxWaves + 1); //pick number of waves
+        Debug.Log("Number of waves: " + numOfWaves);
 
         //Generate Random level
         waves = new Wave[numOfWaves];
-        for(int i=0; i<numOfWaves; i++)
+        for (int i = 0; i < waves.Length; i++)
         {
             int indexOfEnemy = Random.Range(0, optionalEnemies.Length); //pick index of enemy to spawn
-            waves[i].enemy = optionalEnemies[indexOfEnemy];
-            waves[i].count = Random.Range(minCount, maxCount + 1);
-            waves[i].delay = 0.5f;
-            waves[i].name = "Wave #" + i.ToString();
+
+            Wave w = new Wave();
+            w.enemy = optionalEnemies[indexOfEnemy];
+            w.count = Random.Range(minCount, maxCount + 1);
+            w.delay = 0.5f;
+            w.name = "Wave #" + i.ToString();
+            waves[i] = w;
+            Debug.Log("Enemy index: " + indexOfEnemy + ", Count: " + w.count);
         }
     }
 
