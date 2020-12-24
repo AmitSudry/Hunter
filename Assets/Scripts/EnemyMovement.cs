@@ -19,6 +19,7 @@ public class EnemyMovement : MonoBehaviour
     public bool isActiveCreature = false;
     private int currExitPoint = -1;
 
+    private bool first = true;
     void Start()
     {
         player = GameObject.FindGameObjectsWithTag("Player")[0];
@@ -42,14 +43,26 @@ public class EnemyMovement : MonoBehaviour
             if(isActiveCreature)
             {
                 agent.SetDestination(player.transform.position);
+                if(first)
+                {
+                    agent.speed *= (float)2;
+                    first = false;
+                }
             }
             else
             {
                 if (currExitPoint == -1)
                     currExitPoint = Random.Range(0, exitPoints.Length - 1);
                 agent.SetDestination(exitPoints[currExitPoint].position);
-                agent.speed *= (float)1.25;
+                if (first)
+                {
+                    agent.speed *= (float)1.5;
+                    first = false;
+                }
             }
+
+            if (agent.speed > 12)
+                agent.speed = 12;
 
             if (ReachedDestination())
             {
