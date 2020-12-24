@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Scope : MonoBehaviour
 {
     public Animator animator;
-    public GameObject scopeOverlay;
     public GameObject weaponCam;
     public Image crosshair;
 
@@ -16,8 +15,9 @@ public class Scope : MonoBehaviour
     public float scopedFOV = 15.0f;
 
     public bool isScoped = false;
-    private float normalFOV = 60.0f; 
+    private float normalFOV = 60.0f;
 
+    public GameObject[] scopes;
     // Update is called once per frame
     void Update()
     {
@@ -46,7 +46,15 @@ public class Scope : MonoBehaviour
     {
         yield return new WaitForSeconds(0.15f);
 
-        scopeOverlay.SetActive(true);
+        WeaponSwitching w = gameObject.GetComponent<WeaponSwitching>();
+        for (int i = 0; i < 3; i++)
+        {
+            if(w.currWeapon==i)
+                scopes[i].SetActive(true);
+            else
+                scopes[i].SetActive(false);
+        }
+
         weaponCam.SetActive(false);
 
         mainCam.fieldOfView = scopedFOV;
@@ -57,7 +65,12 @@ public class Scope : MonoBehaviour
 
     public void OnUnScoped()
     {
-        scopeOverlay.SetActive(false);
+        WeaponSwitching w = gameObject.GetComponent<WeaponSwitching>();
+        for(int i=0; i<3; i++)
+        {
+            scopes[i].SetActive(false);
+        }
+        
         weaponCam.SetActive(true);
 
         mainCam.fieldOfView = normalFOV;
