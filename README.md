@@ -70,7 +70,19 @@ Added more UI for weapon shooting such as crosshair and magnifying scope.
 Imported 2 environments for the unity assets store and started to test and integrate them with the game.
 
 week 6:
-Added more menus such as a pause menu. Added lose/win UI with a following menu to enable restarting a level or going back to main menu. 
+Added more menus such as a pause menu. 
+Added lose/win UI with a following menu to enable restarting a level or going back to main menu. 
 Added 2 different creatures behaviours(active/passive).
 
 week 7: 
+Automated the enemies spawning generator based on user difficulty choise.
+Added 2 more environments. 
+Added 16 animated enemies, 4 for each matching environment.
+Added 2 more weapons. 
+Added level status ui shown to the player each wave.
+
+week 8:
+checklist:
+Added different scope overlays. 
+Animate weapon recoil.
+Allow semi-automatic firing????
