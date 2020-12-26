@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class WeaponSwitching : MonoBehaviour
 {
     public int currWeapon = 0;
     public Animator weapAnimator;
+
+    public AudioSource weaponSwitchSound;
+    public AudioSource timerSound;
 
     // Start is called before the first frame update
     void Start()
@@ -28,11 +32,16 @@ public class WeaponSwitching : MonoBehaviour
             currWeapon = 2;
 
         if (prevWeapon != currWeapon)
+        {
             SelectWeapon();
+        }
+            
     }
 
     void SelectWeapon()
     {
+        timerSound.Stop();
+        weaponSwitchSound.Play();
         Scope s = gameObject.GetComponent<Scope>();
         if (s.isScoped)
         {
@@ -40,7 +49,7 @@ public class WeaponSwitching : MonoBehaviour
             weapAnimator.SetBool("Scoped", false);
             s.OnUnScoped();
         }
-
+ 
         int i = 0;
         foreach (Transform weap in transform)
         {

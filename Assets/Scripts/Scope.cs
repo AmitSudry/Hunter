@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class Scope : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Scope : MonoBehaviour
     private float normalFOV = 60.0f;
 
     public GameObject[] scopes;
+
+    public AudioSource scopeSound;
     // Update is called once per frame
     void Update()
     {
@@ -44,6 +47,7 @@ public class Scope : MonoBehaviour
 
     IEnumerator OnScoped()
     {
+        scopeSound.Play();
         yield return new WaitForSeconds(0.15f);
 
         WeaponSwitching w = gameObject.GetComponent<WeaponSwitching>();
@@ -65,6 +69,8 @@ public class Scope : MonoBehaviour
 
     public void OnUnScoped()
     {
+        scopeSound.Play();
+
         WeaponSwitching w = gameObject.GetComponent<WeaponSwitching>();
         for(int i=0; i<3; i++)
         {

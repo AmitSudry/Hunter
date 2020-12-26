@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using TMPro;
 using UnityEngine.UI;
 
 public class GunShoot : MonoBehaviour
 {
+    //public Recoil recoilScript;
+
     public TextMeshProUGUI ammoText;
     public TextMeshProUGUI reloadText;
     public Image crosshair;
@@ -26,6 +29,9 @@ public class GunShoot : MonoBehaviour
     public Camera fpsCam;
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
+
+    public AudioSource gunShootSound;
+    public AudioSource timerSound;
 
     private bool canShoot = true;
 
@@ -88,6 +94,7 @@ public class GunShoot : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
+        timerSound.Play();
 
         Scope s = weaponHolder.GetComponent<Scope>();
         if (s.isScoped)
@@ -111,6 +118,7 @@ public class GunShoot : MonoBehaviour
         reloadText.enabled = false;
         crosshair.enabled = true;
 
+        timerSound.Stop();
         isReloading = false;
 
         ammoText.SetText(currAmmo.ToString());
@@ -118,6 +126,9 @@ public class GunShoot : MonoBehaviour
 
     void Shoot()
     {
+        //recoilScript.Fire();
+        gunShootSound.Play();
+
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         if (enemies != null)
         {
@@ -144,7 +155,7 @@ public class GunShoot : MonoBehaviour
 
             GameObject g =  Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
             UnityEngine.Object.Destroy(g, 1f);
-        }     
+        }
     }
 
     IEnumerator ShootDelay()
