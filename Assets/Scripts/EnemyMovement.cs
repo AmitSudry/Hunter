@@ -38,7 +38,10 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(followPlayer)
+        if (Vector3.Distance(player.transform.position, agent.transform.position) <= 20.0f) //Dont get too close to the enemy
+            followPlayer = true;
+
+        if (followPlayer)
         {   
             if(isActiveCreature)
             {
@@ -95,7 +98,7 @@ public class EnemyMovement : MonoBehaviour
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                if (!agent.hasPath || agent.velocity.sqrMagnitude <= 50.0f)
                 {
                     return true;
                 }

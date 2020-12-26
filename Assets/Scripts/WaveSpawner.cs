@@ -75,12 +75,26 @@ public class WaveSpawner : MonoBehaviour
         waves = new Wave[numOfWaves];
         for (int i = 0; i < waves.Length; i++)
         {
-            int indexOfEnemy = Random.Range(0, optionalEnemies.Length); //pick index of enemy to spawn
 
             Wave w = new Wave();
-            w.enemy = optionalEnemies[indexOfEnemy];
+            if(i==0)
+            {
+                int indexOfEnemy = Random.Range(0, optionalEnemies.Length); //pick index of enemy to spawn
+                w.enemy = optionalEnemies[indexOfEnemy];
+            }
+            else
+            {
+                //Same enemy two waves in a row is not allowed
+                do
+                {
+                    int indexOfEnemy = Random.Range(0, optionalEnemies.Length); //pick index of enemy to spawn
+                    w.enemy = optionalEnemies[indexOfEnemy];
+                }
+                while (waves[i - 1].enemy == w.enemy);
+            }
+            
             w.count = Random.Range(minCount, maxCount + 1);
-            w.delay = 0.5f;
+            w.delay = 0.75f;
             w.name = "Wave #" + i.ToString();
             waves[i] = w;
             //Debug.Log("Enemy index: " + indexOfEnemy + ", Count: " + w.count);
@@ -96,7 +110,6 @@ public class WaveSpawner : MonoBehaviour
             {
                 //Debug.Log("Wave Completed");
                 WaveCompleted();
-                
             }
             else
             {
@@ -134,7 +147,6 @@ public class WaveSpawner : MonoBehaviour
             WaveCompletedText.SetText("Completed wave " + nextWave + " / " + numOfWaves);
             //Debug.Log("Completed wave " + nextWave + "/" + numOfWaves);
         }
-        
     }
 
     bool EnemyLeft()
