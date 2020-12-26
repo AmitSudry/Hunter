@@ -13,7 +13,8 @@ public class WaveSpawner : MonoBehaviour
     public class Wave
     {
         public string name;
-        public Transform enemy;
+        //public Transform enemy;
+        public int enemyIndex;
         public int count;
         public float delay;
     }
@@ -64,7 +65,7 @@ public class WaveSpawner : MonoBehaviour
         {
             minWaves = 3;
             maxWaves = 6;
-            minCount = 2;
+            minCount = 3;
             maxCount = 5;
         }
 
@@ -79,18 +80,17 @@ public class WaveSpawner : MonoBehaviour
             Wave w = new Wave();
             if(i==0)
             {
-                int indexOfEnemy = Random.Range(0, optionalEnemies.Length); //pick index of enemy to spawn
-                w.enemy = optionalEnemies[indexOfEnemy];
+                //pick index of enemy to spawn
+                w.enemyIndex = Random.Range(0, optionalEnemies.Length);
             }
             else
             {
                 //Same enemy two waves in a row is not allowed
                 do
                 {
-                    int indexOfEnemy = Random.Range(0, optionalEnemies.Length); //pick index of enemy to spawn
-                    w.enemy = optionalEnemies[indexOfEnemy];
+                    w.enemyIndex = Random.Range(0, optionalEnemies.Length);
                 }
-                while (waves[i - 1].enemy == w.enemy);
+                while (waves[i - 1].enemyIndex == w.enemyIndex);
             }
             
             w.count = Random.Range(minCount, maxCount + 1);
@@ -171,7 +171,7 @@ public class WaveSpawner : MonoBehaviour
 
         for (int i = 0; i < wave.count; i++)
         {
-            SpawnEnemy(wave.enemy);
+            SpawnEnemy(wave.enemyIndex);
             yield return new WaitForSeconds(wave.delay);
         }
         state = SpawnState.WAITING;
@@ -179,9 +179,9 @@ public class WaveSpawner : MonoBehaviour
         yield break;
     }
 
-    void SpawnEnemy(Transform enemy)
+    void SpawnEnemy(int index)
     {
         Transform sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        Instantiate(enemy, sp.position, sp.rotation);
+        Instantiate(optionalEnemies[index], sp.position, sp.rotation);
     }
 }
