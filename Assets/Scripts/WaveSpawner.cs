@@ -19,6 +19,8 @@ public class WaveSpawner : MonoBehaviour
         public float delay;
     }
 
+    public bool isBossLevel = false;
+
     public TextMeshProUGUI WaveCompletedText;
 
     private Wave[] waves;
@@ -69,6 +71,14 @@ public class WaveSpawner : MonoBehaviour
             maxCount = 5;
         }
 
+        if(isBossLevel)
+        {
+            minWaves = 1;
+            maxWaves = 1;
+            minCount = 1;
+            maxCount = 1;
+        }
+
         numOfWaves = Random.Range(minWaves, maxWaves + 1); //pick number of waves
         //Debug.Log("Number of waves: " + numOfWaves);
 
@@ -76,7 +86,6 @@ public class WaveSpawner : MonoBehaviour
         waves = new Wave[numOfWaves];
         for (int i = 0; i < waves.Length; i++)
         {
-
             Wave w = new Wave();
             if(i==0)
             {

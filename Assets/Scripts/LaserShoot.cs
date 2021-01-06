@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 using TMPro;
 using UnityEngine.UI;
 
-public class GunShoot : MonoBehaviour
+public class LaserShoot : MonoBehaviour
 {
     //public Recoil recoilScript;
     public GameObject laserBeam;
@@ -22,8 +22,8 @@ public class GunShoot : MonoBehaviour
 
     public float fireDelta = 0.5f;
 
-    public int maxAmmo = 6;
-    private int currAmmo;
+    public float maxAmmo = 5.0f;
+    private float currAmmo;
     public float reloadTime = 2.0f;
     private bool isReloading = false;
 
@@ -39,7 +39,7 @@ public class GunShoot : MonoBehaviour
     void Start()
     {
         currAmmo = maxAmmo;
-        ammoText.SetText(currAmmo.ToString());
+        ammoText.SetText(((int)currAmmo).ToString());
         reloadText.enabled = false;
     }
 
@@ -49,27 +49,25 @@ public class GunShoot : MonoBehaviour
         if (isReloading)
             return;
 
-        ammoText.SetText(currAmmo.ToString());
+        if (currAmmo < maxAmmo)
+            currAmmo += Time.deltaTime*2;
 
-        if(!weapAnimator.GetBool("Scoped"))
+        ammoText.SetText(((int)currAmmo).ToString());
+
+        if (!weapAnimator.GetBool("Scoped"))
             crosshair.enabled = true;
 
         reloadText.enabled = false;
 
         if (currAmmo<=0)
         {
-            StartCoroutine(Reload());
+            StartCoroutine(Cooldown());
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && currAmmo!=maxAmmo)
+        if (Input.GetMouseButton(0) && canShoot)
         {
-            StartCoroutine(Reload());
-            return;
-        }
-
-        if (Input.GetMouseButtonDown(0) && canShoot)
-        {
+            laserBeam.GetComponent<ParticleSystem>().Play();
             Scope s = weaponHolder.GetComponent<Scope>();
             if (s.isScoped)
             {
@@ -78,9 +76,7 @@ public class GunShoot : MonoBehaviour
                 s.OnUnScoped();
             }
             Shoot();
-            canShoot = false;
-            StartCoroutine(ShootDelay());
-        }
+        }     
     }
 
     void OnEnable()
@@ -91,10 +87,10 @@ public class GunShoot : MonoBehaviour
         Scope s = transform.parent.gameObject.GetComponent<Scope>(); //Weapon holder Scope script
         s.isScoped = false;
         canShoot = true;
-        reloadText.SetText("Reloading...");
+        reloadText.SetText("Cool Down...");
     }
 
-    IEnumerator Reload()
+    IEnumerator Cooldown()
     {
         isReloading = true;
         timerSound.Play();
@@ -124,7 +120,7 @@ public class GunShoot : MonoBehaviour
         timerSound.Stop();
         isReloading = false;
 
-        ammoText.SetText(currAmmo.ToString());
+        ammoText.SetText(((int)currAmmo).ToString());
     }
 
     void Shoot()
@@ -144,8 +140,8 @@ public class GunShoot : MonoBehaviour
 
         muzzleFlash.Play();
 
-        currAmmo--;
-        ammoText.SetText(currAmmo.ToString());
+        currAmmo -= Time.deltaTime*5;
+        ammoText.SetText(((int)currAmmo).ToString());
 
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
@@ -156,14 +152,8 @@ public class GunShoot : MonoBehaviour
                 target.TakeDamage(damage);
             }
 
-            GameObject g =  Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            UnityEngine.Object.Destroy(g, 1f);
+            //GameObject g =  Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            //UnityEngine.Object.Destroy(g, 1f);
         }
-    }
-
-    IEnumerator ShootDelay()
-    {
-        yield return new WaitForSeconds(fireDelta);
-        canShoot = true;
     }
 }

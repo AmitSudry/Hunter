@@ -26,6 +26,11 @@ public class Scope : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(1))
         {
+            WeaponSwitching w = gameObject.GetComponent<WeaponSwitching>();
+
+            if (w.currWeapon == 3) //laser weapon
+                return;
+
             isScoped = !isScoped;
             animator.SetBool("Scoped", isScoped);
 
@@ -40,8 +45,7 @@ public class Scope : MonoBehaviour
                 //weapon reload state
                 crosshair.enabled = true;
                 OnUnScoped();
-            }
-                  
+            }     
         }
     }
 
@@ -51,6 +55,7 @@ public class Scope : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         WeaponSwitching w = gameObject.GetComponent<WeaponSwitching>();
+
         for (int i = 0; i < 3; i++)
         {
             if(w.currWeapon==i)
