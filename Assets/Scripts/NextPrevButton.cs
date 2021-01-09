@@ -13,10 +13,11 @@ public class NextPrevButton : MonoBehaviour
 	public Image desert;
 	public Image winter;
 	public Image arena;
+	public Image boss;
 
 	public TextMeshProUGUI difficultyText;
 
-	private int numOfEnv = 4;
+	private int numOfEnv = 5;
 	private int currEnv = 0;
 
 	private int numOfDifficulties = 3;
@@ -55,6 +56,7 @@ public class NextPrevButton : MonoBehaviour
 			desert.enabled = false;
 			winter.enabled = false;
 			arena.enabled = false;
+			boss.enabled = false;
 		}
 		else if (currEnv == 1) //desert
 		{
@@ -63,6 +65,7 @@ public class NextPrevButton : MonoBehaviour
 			desert.enabled = true;
 			winter.enabled = false;
 			arena.enabled = false;
+			boss.enabled = false;
 		}
 		else if (currEnv == 2) //winter
 		{
@@ -71,6 +74,7 @@ public class NextPrevButton : MonoBehaviour
 			desert.enabled = false;
 			winter.enabled = true;
 			arena.enabled = false;
+			boss.enabled = false;
 		}
 		else if (currEnv == 3) //arena
 		{
@@ -79,6 +83,16 @@ public class NextPrevButton : MonoBehaviour
 			desert.enabled = false;
 			winter.enabled = false;
 			arena.enabled = true;
+			boss.enabled = false;
+		}
+		else if (currEnv == 4) //boss
+		{
+			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING"); //should be "Game5"
+			jungle.enabled = false;
+			desert.enabled = false;
+			winter.enabled = false;
+			arena.enabled = false;
+			boss.enabled = true;
 		}
 	}
 

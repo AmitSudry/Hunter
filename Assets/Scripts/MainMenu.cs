@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour
     public Image desert;
     public Image winter;
     public Image arena;
+    public Image boss;
 
     void Start()
     {
@@ -18,6 +19,7 @@ public class MainMenu : MonoBehaviour
         desert.enabled = false;
         winter.enabled = false;
         arena.enabled = false;
+        boss.enabled = false;
         PlayerPrefs.SetInt("CurrentDifficulty", 0); //Default is easy
     }
 

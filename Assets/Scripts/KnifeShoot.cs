@@ -5,29 +5,24 @@ using UnityEngine.Audio;
 using TMPro;
 using UnityEngine.UI;
 
-public class GunShoot : MonoBehaviour
+public class KnifeShoot : MonoBehaviour
 {
-    //public Recoil recoilScript;
+    public GameObject knife;
+    public float speed = 10.0f;
 
     public TextMeshProUGUI ammoText;
     public TextMeshProUGUI reloadText;
     public Image crosshair;
-    
+
     public GameObject weaponHolder;
     public Animator weapAnimator;
 
-    public float damage = 1.0f;
-    public float range = 10f;
-
-    public float fireDelta = 0.5f;
-
-    public int maxAmmo = 6;
+    public int maxAmmo = 1;
     private int currAmmo;
     public float reloadTime = 2.0f;
     private bool isReloading = false;
 
     public Camera fpsCam;
-    public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
 
     public AudioSource gunShootSound;
@@ -45,23 +40,19 @@ public class GunShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.Rotate(1.0f, 0.0f, 0.0f);
+
         if (isReloading)
             return;
 
         ammoText.SetText(currAmmo.ToString());
 
-        if(!weapAnimator.GetBool("Scoped"))
+        if (!weapAnimator.GetBool("Scoped"))
             crosshair.enabled = true;
 
         reloadText.enabled = false;
 
-        if (currAmmo<=0)
-        {
-            StartCoroutine(Reload());
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.R) && currAmmo!=maxAmmo)
+        if (currAmmo <= 0)
         {
             StartCoroutine(Reload());
             return;
@@ -78,7 +69,6 @@ public class GunShoot : MonoBehaviour
             }
             Shoot();
             canShoot = false;
-            StartCoroutine(ShootDelay());
         }
     }
 
@@ -90,7 +80,7 @@ public class GunShoot : MonoBehaviour
         Scope s = transform.parent.gameObject.GetComponent<Scope>(); //Weapon holder Scope script
         s.isScoped = false;
         canShoot = true;
-        reloadText.SetText("Reloading...");
+        reloadText.SetText("Just A Sec");
     }
 
     IEnumerator Reload()
@@ -105,7 +95,7 @@ public class GunShoot : MonoBehaviour
             weapAnimator.SetBool("Scoped", false);
             s.OnUnScoped();
         }
-        
+
         crosshair.enabled = false;
         reloadText.enabled = true;
 
@@ -121,6 +111,8 @@ public class GunShoot : MonoBehaviour
         crosshair.enabled = true;
 
         timerSound.Stop();
+        canShoot = true;
+        gameObject.GetComponent<Renderer>().enabled = true;
         isReloading = false;
 
         ammoText.SetText(currAmmo.ToString());
@@ -128,41 +120,26 @@ public class GunShoot : MonoBehaviour
 
     void Shoot()
     {
-        //recoilScript.Fire();
         gunShootSound.Play();
+
+        gameObject.GetComponent<Renderer>().enabled = false;
+
+        GameObject g = Instantiate(knife, gameObject.transform.position, gameObject.transform.rotation);
+        Rigidbody rb = g.GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.None;
+        rb.AddForce(fpsCam.transform.forward * speed, ForceMode.Impulse);
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         if (enemies != null)
         {
-            for(int i=0; i<enemies.Length; i++)
+            for (int i = 0; i < enemies.Length; i++)
             {
                 EnemyMovement em = enemies[i].GetComponent<EnemyMovement>();
                 em.followPlayer = true;
             }
         }
 
-        muzzleFlash.Play();
-
         currAmmo--;
         ammoText.SetText(currAmmo.ToString());
-
-        RaycastHit hit;
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
-        {
-            Target target = hit.transform.GetComponent<Target>();
-            if(target != null)
-            {
-                target.TakeDamage(damage);
-            }
-
-            GameObject g =  Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            UnityEngine.Object.Destroy(g, 1f);
-        }
-    }
-
-    IEnumerator ShootDelay()
-    {
-        yield return new WaitForSeconds(fireDelta);
-        canShoot = true;
     }
 }
