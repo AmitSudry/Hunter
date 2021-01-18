@@ -20,6 +20,9 @@ public class EnemyMovement : MonoBehaviour
     private int currExitPoint = -1;
 
     private bool first = true;
+
+    public bool isBossCreature = false;
+
     void Start()
     {
         player = GameObject.FindGameObjectsWithTag("Player")[0];
@@ -94,6 +97,12 @@ public class EnemyMovement : MonoBehaviour
 
     bool ReachedDestination()
     {
+        if(isBossCreature)
+        {
+            if (Vector3.Distance(player.transform.position, agent.transform.position) <= 10.0f) //Dont get too close to the enemy
+                return true;
+        }
+
         if (!agent.pathPending)
         {
             if (agent.remainingDistance <= agent.stoppingDistance)

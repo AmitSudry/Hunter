@@ -127,6 +127,8 @@ public class KnifeShoot : MonoBehaviour
         GameObject g = Instantiate(knife, gameObject.transform.position, gameObject.transform.rotation);
         Rigidbody rb = g.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
+
+         
         rb.AddForce(fpsCam.transform.forward * speed, ForceMode.Impulse);
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");

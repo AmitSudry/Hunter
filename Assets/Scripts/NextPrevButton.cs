@@ -60,7 +60,7 @@ public class NextPrevButton : MonoBehaviour
 		}
 		else if (currEnv == 1) //desert
 		{
-			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING"); //should be "Game2"
+			PlayerPrefs.SetString("CurrentScene", "Game2"); //should be "Game2"
 			jungle.enabled = false;
 			desert.enabled = true;
 			winter.enabled = false;
@@ -69,7 +69,7 @@ public class NextPrevButton : MonoBehaviour
 		}
 		else if (currEnv == 2) //winter
 		{
-			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING"); //should be "Game3"
+			PlayerPrefs.SetString("CurrentScene", "Game3"); //should be "Game3"
 			jungle.enabled = false;
 			desert.enabled = false;
 			winter.enabled = true;
@@ -78,7 +78,7 @@ public class NextPrevButton : MonoBehaviour
 		}
 		else if (currEnv == 3) //arena
 		{
-			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING"); //should be "Game4"
+			PlayerPrefs.SetString("CurrentScene", "Game4"); //should be "Game4"
 			jungle.enabled = false;
 			desert.enabled = false;
 			winter.enabled = false;
@@ -87,7 +87,7 @@ public class NextPrevButton : MonoBehaviour
 		}
 		else if (currEnv == 4) //boss
 		{
-			PlayerPrefs.SetString("CurrentScene", "GAME_TESTING"); //should be "Game5"
+			PlayerPrefs.SetString("CurrentScene", "Game5"); //should be "Game5"
 			jungle.enabled = false;
 			desert.enabled = false;
 			winter.enabled = false;
