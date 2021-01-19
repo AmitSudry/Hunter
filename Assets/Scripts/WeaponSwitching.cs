@@ -37,6 +37,9 @@ public class WeaponSwitching : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha5) && transform.childCount >= 5)
             currWeapon = 4;
 
+        if (Input.GetKeyDown(KeyCode.Alpha6) && transform.childCount >= 6)
+            currWeapon = 5;
+
         if (prevWeapon != currWeapon)
         {
             SelectWeapon();

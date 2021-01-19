@@ -35,6 +35,8 @@ public class GunShoot : MonoBehaviour
 
     private bool canShoot = true;
 
+    public bool isAR = false;
+
     void Start()
     {
         currAmmo = maxAmmo;
@@ -67,6 +69,14 @@ public class GunShoot : MonoBehaviour
             return;
         }
 
+        if(isAR && Input.GetMouseButton(0) && canShoot)
+        {
+            Shoot();
+            canShoot = false;
+            StartCoroutine(ShootDelay());
+            return;
+        }
+        
         if (Input.GetMouseButtonDown(0) && canShoot)
         {
             Scope s = weaponHolder.GetComponent<Scope>();
@@ -79,6 +89,7 @@ public class GunShoot : MonoBehaviour
             Shoot();
             canShoot = false;
             StartCoroutine(ShootDelay());
+            return;
         }
     }
 
@@ -128,7 +139,6 @@ public class GunShoot : MonoBehaviour
 
     void Shoot()
     {
-        //recoilScript.Fire();
         gunShootSound.Play();
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -156,7 +166,7 @@ public class GunShoot : MonoBehaviour
             }
 
             GameObject g =  Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            UnityEngine.Object.Destroy(g, 1f);
+            UnityEngine.Object.Destroy(g, 2.0f);
         }
     }
 

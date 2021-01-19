@@ -26,6 +26,11 @@ public class Scope : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(1))
         {
+            if (animator.GetBool("Reloading"))
+            {
+                return;
+            }
+
             WeaponSwitching w = gameObject.GetComponent<WeaponSwitching>();
 
             if (w.currWeapon == 3 || w.currWeapon == 4) //laser weapon or knife
@@ -66,7 +71,10 @@ public class Scope : MonoBehaviour
 
         weaponCam.SetActive(false);
 
-        mainCam.fieldOfView = scopedFOV;
+        if(w.currWeapon==5) //AR
+            mainCam.fieldOfView = scopedFOV + 20;
+        else
+            mainCam.fieldOfView = scopedFOV;
 
         MouseLook ml = mainCamera.GetComponent<MouseLook>();
         ml.mouseSensitivity = 80.0f;
