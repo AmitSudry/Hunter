@@ -5,10 +5,10 @@ using UnityEngine.Audio;
 using TMPro;
 using UnityEngine.UI;
 
-public class KnifeShoot : MonoBehaviour
+public class GrenadeLaunch : MonoBehaviour
 {
-    public GameObject knife;
-    public float speed = 10.0f;
+    public GameObject grenade;
+    public float range = 10.0f;
 
     public TextMeshProUGUI ammoText;
     public TextMeshProUGUI reloadText;
@@ -29,17 +29,22 @@ public class KnifeShoot : MonoBehaviour
 
     private bool canShoot = true;
 
+    public GameObject safety;
+    public Transform safetyOriginal;
+
     void Start()
     {
         currAmmo = maxAmmo;
         ammoText.SetText(currAmmo.ToString());
         reloadText.enabled = false;
+
+        //Vector3 safetyOriginal = safety.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(1.0f, 0.0f, 0.0f);
+        //transform.Rotate(0.0f, 1.0f, 0.0f);
 
         if (isReloading)
             return;
@@ -66,8 +71,15 @@ public class KnifeShoot : MonoBehaviour
                 weapAnimator.SetBool("Scoped", false);
                 s.OnUnScoped();
             }
+            safety.transform.Translate(0.1f, 0.0f, 0.0f);
+        }
+
+        if (Input.GetMouseButtonUp(0) && canShoot)
+        {
+            safety.transform.Translate(-0.1f, 0.0f, 0.0f);
             Shoot();
             canShoot = false;
+            //safety.transform.position = safetyOriginal.position;  
         }
     }
 
@@ -111,7 +123,7 @@ public class KnifeShoot : MonoBehaviour
 
         timerSound.Stop();
         canShoot = true;
-        gameObject.GetComponent<Renderer>().enabled = true;
+        //gameObject.GetComponent<Renderer>().enabled = true;
         isReloading = false;
 
         ammoText.SetText(currAmmo.ToString());
@@ -121,24 +133,13 @@ public class KnifeShoot : MonoBehaviour
     {
         gunShootSound.Play();
 
-        gameObject.GetComponent<Renderer>().enabled = false;
+        //gameObject.GetComponent<Renderer>().enabled = false;
 
-        GameObject g = Instantiate(knife, gameObject.transform.position, gameObject.transform.rotation);
+        GameObject g = Instantiate(grenade, gameObject.transform.position, gameObject.transform.rotation);
         Rigidbody rb = g.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
 
-         
-        rb.AddForce(fpsCam.transform.forward * speed, ForceMode.Impulse);
-
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (enemies != null)
-        {
-            for (int i = 0; i < enemies.Length; i++)
-            {
-                EnemyMovement em = enemies[i].GetComponent<EnemyMovement>();
-                em.followPlayer = true;
-            }
-        }
+        rb.AddForce(fpsCam.transform.forward * range, ForceMode.Impulse);
 
         currAmmo--;
         ammoText.SetText(currAmmo.ToString());
