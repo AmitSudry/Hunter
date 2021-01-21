@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 using TMPro;
 using UnityEngine.UI;
 
-public class KnifeShoot : MonoBehaviour
+public class KnifeThrow : MonoBehaviour
 {
     public GameObject knife;
     public float speed = 10.0f;

@@ -44,7 +44,7 @@ public class Grenade : MonoBehaviour
             Rigidbody rb = near.GetComponent<Rigidbody>();
 
             if (rb != null)
-                rb.AddExplosionForce(force, transform.position, radius, 1.0f, ForceMode.Impulse);
+                rb.AddExplosionForce(force, transform.position, radius, 10.0f, ForceMode.Impulse);
 
             Target target = near.GetComponent<Target>();
 
