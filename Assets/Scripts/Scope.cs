@@ -33,7 +33,7 @@ public class Scope : MonoBehaviour
 
             WeaponSwitching w = gameObject.GetComponent<WeaponSwitching>();
 
-            if (w.currWeapon == 3 || w.currWeapon == 4 || w.currWeapon == 6) //laser weapon, knife or grenade
+            if (w.currWeapon == 3 || w.currWeapon == 4 || w.currWeapon == 6 || w.currWeapon == 7) //laser weapon, knife, grenade or portal gun
                 return;
 
             isScoped = !isScoped;

@@ -6,6 +6,8 @@ using UnityEngine.Audio;
 public class WeaponSwitching : MonoBehaviour
 {
     public int currWeapon = 0;
+    public int numOfWeapons = 8;
+
     public Animator weapAnimator;
 
     public AudioSource weaponSwitchSound;
@@ -21,6 +23,21 @@ public class WeaponSwitching : MonoBehaviour
     void Update()
     {
         int prevWeapon = currWeapon;
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f) // forward
+        {
+            if (currWeapon != numOfWeapons - 1)
+                currWeapon++;
+            else
+                currWeapon = 0;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f) // backwards
+        {
+            if (currWeapon != 0)
+                currWeapon--;
+            else
+                currWeapon = numOfWeapons - 1;
+        }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
             currWeapon = 0;
@@ -42,6 +59,9 @@ public class WeaponSwitching : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha7) && transform.childCount >= 7)
             currWeapon = 6;
+
+        if (Input.GetKeyDown(KeyCode.Alpha8) && transform.childCount >= 8)
+            currWeapon = 7;
 
         if (prevWeapon != currWeapon)
         {
