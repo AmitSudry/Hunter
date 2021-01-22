@@ -26,19 +26,24 @@ public class GrenadeLaunch : MonoBehaviour
 
     public AudioSource gunShootSound;
     public AudioSource timerSound;
+    public AudioSource explosionSound;
 
     private bool canShoot = true;
 
     public GameObject safety;
     public Transform safetyOriginal;
 
+    private float explosionDelay;
     void Start()
     {
         currAmmo = maxAmmo;
         ammoText.SetText(currAmmo.ToString());
         reloadText.enabled = false;
 
-        //Vector3 safetyOriginal = safety.transform.position;
+        if(grenade!=null)
+        {
+            explosionDelay = grenade.GetComponent<Grenade>().delay;
+        }
     }
 
     // Update is called once per frame
@@ -136,6 +141,7 @@ public class GrenadeLaunch : MonoBehaviour
         //gameObject.GetComponent<Renderer>().enabled = false;
 
         GameObject g = Instantiate(grenade, gameObject.transform.position, gameObject.transform.rotation);
+        StartCoroutine(PlayExplosionSound());
         Rigidbody rb = g.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
 
@@ -143,5 +149,11 @@ public class GrenadeLaunch : MonoBehaviour
 
         currAmmo--;
         ammoText.SetText(currAmmo.ToString());
+    }
+
+    IEnumerator PlayExplosionSound()
+    {
+        yield return new WaitForSeconds(explosionDelay);
+        explosionSound.Play();
     }
 }

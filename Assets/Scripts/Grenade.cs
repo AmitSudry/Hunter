@@ -11,8 +11,6 @@ public class Grenade : MonoBehaviour
     public float radius = 15.0f;
     public float damage = 125.0f;
 
-    public AudioSource explosionSound;
-
     private float timeFromLaunch = 0.0f;
 
     // Update is called once per frame
@@ -75,7 +73,7 @@ public class Grenade : MonoBehaviour
             }
         }
 
-        UnityEngine.Object.Destroy(g, 1.0f);
+        UnityEngine.Object.Destroy(g, 2.0f);
         UnityEngine.Object.Destroy(gameObject);
     }
 }
