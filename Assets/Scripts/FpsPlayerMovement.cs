@@ -10,11 +10,6 @@ public class FpsPlayerMovement : MonoBehaviour
     public float upForce = 10000.0f;
     public bool isOnGround = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -28,7 +23,6 @@ public class FpsPlayerMovement : MonoBehaviour
 
         if (Input.GetKey("q") && isOnGround)
         {
-
             rb.AddForce(0, upForce * Time.deltaTime, 0);
         }
 

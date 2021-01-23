@@ -53,22 +53,22 @@ public class WaveSpawner : MonoBehaviour
         {
             minWaves = 2;
             maxWaves = 3;
-            minCount = 1;
-            maxCount = 3;
+            minCount = 2;
+            maxCount = 4;
         }
         else if (PlayerPrefs.GetInt("CurrentDifficulty") == 1) //medium
         {
             minWaves = 2;
             maxWaves = 4;
-            minCount = 2;
-            maxCount = 4;
+            minCount = 3;
+            maxCount = 5;
         }
         else if (PlayerPrefs.GetInt("CurrentDifficulty") == 2) //hard
         {
             minWaves = 3;
             maxWaves = 6;
-            minCount = 3;
-            maxCount = 5;
+            minCount = 4;
+            maxCount = 6;
         }
 
         if(isBossLevel)

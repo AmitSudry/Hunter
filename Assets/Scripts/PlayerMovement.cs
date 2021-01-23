@@ -10,7 +10,15 @@ public class PlayerMovement : MonoBehaviour
     public float upForce = 2000.0f;
     public bool isOnGround = false;
 
-    Vector3 velocity;
+    public event System.Action<float> OnStaminaPctChanged = delegate { };
+    public float maxTimeStamina = 5.0f;
+    private float leftStamina;
+    private bool canRegainStamina = true;
+
+    void Start()
+    {
+        leftStamina = maxTimeStamina;
+    }
 
     // Update is called once per frame
     void Update()
@@ -20,31 +28,37 @@ public class PlayerMovement : MonoBehaviour
         float y = Input.GetAxis("Jump");
         
         Vector3 move = transform.right * x * sideForce + transform.forward * z * forwardForce;
-        Vector3 jump = transform.up * y * upForce;
-        /*
-        if (Input.GetKey("w"))
-        {
-            rb.AddForce(-forwardForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
-        }
-        if (Input.GetKey("s"))
-        {
-            rb.AddForce(forwardForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
-        }
-        if (Input.GetKey("d"))
-        {
-            rb.AddForce(0, 0, sideForce * Time.deltaTime, ForceMode.VelocityChange);
-        }
-        if (Input.GetKey("a"))
-        {
-            rb.AddForce(0, 0, -sideForce * Time.deltaTime, ForceMode.VelocityChange);
-        }
-       
-        */
+        
         if (Input.GetKey(KeyCode.Space) && isOnGround)
         {
+            Vector3 jump = transform.up * y * upForce;
             rb.AddForce(jump);
         }
-        rb.AddForce(move);
+
+        if (leftStamina <= 0.0f && canRegainStamina)
+        {
+            canRegainStamina = false;
+            StartCoroutine(RegainStamina());
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && leftStamina > 0.0f) //Left shift is being held
+        {
+            rb.AddForce(2 * move);
+            leftStamina -= Time.deltaTime;
+            float currStaminaPct = leftStamina / maxTimeStamina;
+            OnStaminaPctChanged(currStaminaPct);
+        }
+        else
+        {
+            rb.AddForce(move);
+
+            if (canRegainStamina && leftStamina < maxTimeStamina)
+            {
+                leftStamina += Time.deltaTime * 0.5f;
+                float currStaminaPct = leftStamina / maxTimeStamina;
+                OnStaminaPctChanged(currStaminaPct);
+            }
+        }
     }
 
     void OnCollisionEnter(Collision coll)
@@ -62,5 +76,14 @@ public class PlayerMovement : MonoBehaviour
         {
             isOnGround = false;
         }
+    }
+
+    IEnumerator RegainStamina()
+    {
+        yield return new WaitForSeconds(3.0f);
+        canRegainStamina = true;
+        leftStamina = maxTimeStamina * 0.1f;
+        float currStaminaPct = leftStamina / maxTimeStamina;
+        OnStaminaPctChanged(currStaminaPct);
     }
 }

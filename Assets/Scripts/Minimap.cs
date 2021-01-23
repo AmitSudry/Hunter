@@ -9,7 +9,7 @@ public class Minimap : MonoBehaviour
     void LateUpdate()
     {
         Vector3 newPos = player.position;
-        newPos.y = transform.position.y;
+        newPos.y = player.position.y + 20.0f;
         transform.position = newPos;
     }
 }
