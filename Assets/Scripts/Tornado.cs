@@ -7,8 +7,7 @@ public class Tornado : MonoBehaviour
 {
     public Transform tornadoCenterPull;
 
-    public float pullForce = 500.0f;
-    public float refreshRate;
+    public float pullForce = 20000.0f;
 
     private float radius;
 
@@ -22,7 +21,6 @@ public class Tornado : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         timer = wanderTimer;
-
         radius = gameObject.GetComponent<SphereCollider>().radius;
     }
 
@@ -58,7 +56,6 @@ public class Tornado : MonoBehaviour
         {
             if(other == null)
             {
-                Debug.Log("Exiting3");
                 return;
             }
 
@@ -70,7 +67,6 @@ public class Tornado : MonoBehaviour
     {
         if (other == null)
         {
-            Debug.Log("Exiting2");
             return;
         }
 
@@ -81,11 +77,9 @@ public class Tornado : MonoBehaviour
     {
         if (x == null)
         {
-            Debug.Log("Exiting1");
             yield break;
         }
             
-
         if (pull)
         {
             Vector3 forceDir = tornadoCenterPull.position - x.transform.position;

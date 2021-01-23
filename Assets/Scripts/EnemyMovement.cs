@@ -58,7 +58,7 @@ public class EnemyMovement : MonoBehaviour
             else
             {
                 if (currExitPoint == -1)
-                    currExitPoint = Random.Range(0, exitPoints.Length - 1);
+                    currExitPoint = Random.Range(0, exitPoints.Length);
                 agent.SetDestination(exitPoints[currExitPoint].position);
                 if (first)
                 {
@@ -80,8 +80,12 @@ public class EnemyMovement : MonoBehaviour
         {
             if(reachedDest)
             {
-                if (++pointIndex == patrolPoints.Length)
-                    pointIndex = 0;
+                int prevPoint = pointIndex;
+                do
+                {
+                    pointIndex = Random.Range(0, patrolPoints.Length);
+                }
+                while (prevPoint == pointIndex);
 
                 agent.SetDestination(patrolPoints[pointIndex].position);
                 reachedDest = false;

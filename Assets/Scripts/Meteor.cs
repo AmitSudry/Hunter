@@ -17,6 +17,8 @@ public class Meteor : MonoBehaviour
     private float zForce = 0.0f;
     private float xForce = 0.0f;
 
+    public AudioSource explosionSound;
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -66,6 +68,8 @@ public class Meteor : MonoBehaviour
         }
 
         gameObject.GetComponent<Renderer>().enabled = false;
+
+        explosionSound.Play();
 
         GameObject g = Instantiate(impactEffect, transform.position, Quaternion.identity);
         UnityEngine.Object.Destroy(g, 2.0f);
