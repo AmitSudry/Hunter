@@ -19,9 +19,14 @@ public class EnemyMovement : MonoBehaviour
     public bool isActiveCreature = false;
     private int currExitPoint = -1;
 
-    private bool first = true;
+    private bool first = true; //Update agent speed only at the first time
 
     public bool isBossCreature = false;
+
+    public bool isZigZag = true;
+
+    private float timer = 0.0f;
+    public float threshold = 0.25f;
 
     void Start()
     {
@@ -41,28 +46,32 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(player.transform.position, agent.transform.position) <= 20.0f) //Dont get too close to the enemy
-            followPlayer = true;
-
-        if (followPlayer)
+        if (followPlayer) //Player is exposed
         {   
             if(isActiveCreature)
             {
-                agent.SetDestination(player.transform.position);
-                if(first)
+                timer += Time.deltaTime;
+
+                if (first)
                 {
-                    agent.speed *= (float)2;
+                    agent.speed *= 2.0f;
                     first = false;
+                    agent.SetDestination(player.transform.position);
+                }
+
+                if (timer > threshold)
+                {
+                    agent.SetDestination(player.transform.position);
+                    timer = 0.0f;
                 }
             }
             else
             {
-                if (currExitPoint == -1)
-                    currExitPoint = Random.Range(0, exitPoints.Length);
-                agent.SetDestination(exitPoints[currExitPoint].position);
                 if (first)
                 {
-                    agent.speed *= (float)1.5;
+                    currExitPoint = Random.Range(0, exitPoints.Length);
+                    agent.SetDestination(exitPoints[currExitPoint].position);
+                    agent.speed *= 1.5f;
                     first = false;
                 }
             }
@@ -78,7 +87,10 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            if(reachedDest)
+            if (Vector3.Distance(player.transform.position, agent.transform.position) <= 20.0f) //Dont get too close to the enemy
+                followPlayer = true;
+
+            if (reachedDest) //Reached patrol point
             {
                 int prevPoint = pointIndex;
                 do
@@ -94,8 +106,7 @@ public class EnemyMovement : MonoBehaviour
             {
                 if (ReachedDestination())
                     reachedDest = true;
-            }
-            
+            } 
         }
     }
 

@@ -12,6 +12,7 @@ public class MeteorSpawner : MonoBehaviour
     public float maxz = 0.0f;
 
     private float delta = 0.0f;
+    public float spawnEvery = 3.0f;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -27,7 +28,7 @@ public class MeteorSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(delta >= 2.0f) //spawn every 5 seconds
+        if(delta >= spawnEvery)
         {
             delta = 0.0f;
             spawnMeteor();
